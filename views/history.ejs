@@ -1,0 +1,113 @@
+<%- include('partials/head') %>
+
+<main>
+	<div class="chart">
+		<canvas id="inside_chart"></canvas>
+	</div>
+
+	<div class="chart">
+		<canvas id="outside_chart"></canvas>
+	</div>
+
+</main>
+
+<script>
+	const chartData = {
+		labels: [
+			"<%= entries[9].time.time %>",
+			"<%= entries[8].time.time %>",
+			"<%= entries[7].time.time %>",
+			"<%= entries[6].time.time %>",
+			"<%= entries[5].time.time %>",
+			"<%= entries[4].time.time %>",
+			"<%= entries[3].time.time %>",
+			"<%= entries[2].time.time %>",
+			"<%= entries[1].time.time %>",
+			"<%= entries[0].time.time %>",
+		],
+		datasets: [{
+			label: 'Inside Temperature',
+			data: [
+				<%= entries[9].temperatures.inside %>,
+				<%= entries[8].temperatures.inside %>,
+				<%= entries[7].temperatures.inside %>,
+				<%= entries[6].temperatures.inside %>,
+				<%= entries[5].temperatures.inside %>,
+				<%= entries[4].temperatures.inside %>,
+				<%= entries[3].temperatures.inside %>,
+				<%= entries[2].temperatures.inside %>,
+				<%= entries[1].temperatures.inside %>,
+				<%= entries[0].temperatures.inside %>,
+			],
+			fill: false,
+			borderColor: 'rgb(75, 192, 192)',
+			tension: 0.6
+		}]
+	};
+	var ctx = document.getElementById('inside_chart');
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data: chartData,
+		options: {
+			scales: {
+				y: {
+					suggestedMin: 18,
+					suggestedMax: 25,
+					ticks: {
+						stepSize: 1
+					}
+				}
+			}
+		}
+	});
+
+	const chartDataOutside = {
+		labels: [
+			"<%= entries[9].time.time %>",
+			"<%= entries[8].time.time %>",
+			"<%= entries[7].time.time %>",
+			"<%= entries[6].time.time %>",
+			"<%= entries[5].time.time %>",
+			"<%= entries[4].time.time %>",
+			"<%= entries[3].time.time %>",
+			"<%= entries[2].time.time %>",
+			"<%= entries[1].time.time %>",
+			"<%= entries[0].time.time %>",
+		],
+		datasets: [{
+			label: 'Outside Temperature',
+			data: [
+				<%= entries[9].temperatures.outside %>,
+				<%= entries[8].temperatures.outside %>,
+				<%= entries[7].temperatures.outside %>,
+				<%= entries[6].temperatures.outside %>,
+				<%= entries[5].temperatures.outside %>,
+				<%= entries[4].temperatures.outside %>,
+				<%= entries[3].temperatures.outside %>,
+				<%= entries[2].temperatures.outside %>,
+				<%= entries[1].temperatures.outside %>,
+				<%= entries[0].temperatures.outside %>,
+			],
+			fill: false,
+			borderColor: 'rgb(175, 122, 232)',
+			tension: 0.6
+		}]
+	};
+	var ctxOutside = document.getElementById('outside_chart');
+	var outside = new Chart(ctxOutside, {
+		type: 'line',
+		data: chartDataOutside,
+		options: {
+			scales: {
+				y: {
+					Min: 0,
+					Max: 35,
+					ticks: {
+						stepSize: 2
+					}
+				}
+			}
+		}
+	});
+</script>
+<%- include('partials/footer') %>

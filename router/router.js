@@ -59,9 +59,12 @@ setInterval(() => {
 					},
 					temperatures: {
 						inside: response.data.temperatures.inside,
-						outside: rersponse.data.temperatures.outside
+						outside: response.data.temperatures.outside
 					},
-					time: date + ' / ' + hours + ':' + minutes
+					time: {
+						date: date,
+						time: hours + ':' + minutes
+					}
 				});
 
 				entry.save((err) => {
@@ -82,11 +85,32 @@ setInterval(() => {
 router.get('/', (req, res) => {
 	axios.get(`http://${process.env.SERVERIP}`)
 		.then(response => {
-			res.render('home', { data: response.data });
+			axios.get(`http://api.openweathermap.org/data/2.5/weather?id=632978&units=metric&appid=${process.env.WEATHERAPI}`)
+				.then(weather => {
+					res.render('home', { body: 'home', data: response.data, weather: weather.data });
+					console.log(response.data);
+				});
 		})
 		.catch(err => {
-			res.render('home', { data: undefined });
+			res.render('home', { data: undefined, weather: undefined });
 		});
+});
+
+router.get('/forecast', (req, res) => {
+	axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=63.096&lon=21.6158&exclude=current,minutely,hourly&units=metric&appid=${process.env.WEATHERAPI}`)
+		.then(response => {
+			res.render('forecast', { forecast: response.data, body: 'forecast' });
+		});
+});
+
+router.get('/history', (req, res) => {
+	Entry.find({}, (err, results) => {
+		if (!err) {
+			res.render('history', { body: 'history', entries: results.reverse() });
+		} else {
+			res.render('history', { body: 'history', entries: undefined });
+		}
+	});
 });
 
 module.exports = router;

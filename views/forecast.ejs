@@ -1,0 +1,56 @@
+<%- include('partials/head') %>
+
+<main>
+	<div class="forecast">
+		<div class="grid grid-6 titles">
+			<strong class="date">Date</strong>
+			<strong>Day</strong>
+			<strong>Min</strong>
+			<strong>Max</strong>
+			<strong>Night</strong>
+			<strong>Wind</strong>
+		</div>
+		<div class="forecast-day">
+			<% forecast.daily.forEach(day => { %>
+
+			<% const unix = day.dt %>
+			<% const millis = unix * 1000 %>
+			<% const date = new Date(millis) %>
+			<div class="grid grid-6 daily-forecast">
+				<p class="date"><%= date.toLocaleDateString() %></p>
+				<p><%= day.temp.day %>°C</p>
+				<p><%= day.temp.min %>°C</p>
+				<p><%= day.temp.max %>°C</p>
+				<p><%= day.temp.night %>°C</p>
+				<p><%= day.wind_speed %>m/s</p>
+			</div>
+			<% }) %>
+		</div>
+	</div>
+
+	<div class="alerts">
+		<h3>Alerts</h3>
+		<% forecast.alerts.forEach(alert => { %>
+
+		<% const unixStart = alert.start %>
+		<% const millisStart = unixStart * 1000 %>
+		<% const dateStart = new Date(millisStart) %>
+
+		<% const unixEnd = alert.end %>
+		<% const millisEnd = unixEnd * 1000 %>
+		<% const dateEnd = new Date(millisEnd) %>
+
+		<div class="alert">
+			<div class="title">
+				<strong><%= alert.sender_name %></strong>
+				<p><%= dateStart.toLocaleDateString() %> - <%= dateEnd.toLocaleDateString() %></p>
+			</div>
+			<div class="content">
+				<p><%= alert.description %></p>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+</main>
+
+<%- include('partials/footer') %>

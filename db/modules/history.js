@@ -11,7 +11,10 @@ const schema = new mongoose.Schema({
 		inside: Number,
 		outside: Number
 	},
-	time: String
+	time: {
+		date: String,
+		time: String
+	}
 });
 
 module.exports = new mongoose.model('History', schema);
