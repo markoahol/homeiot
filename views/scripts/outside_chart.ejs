@@ -1,0 +1,50 @@
+<script>
+	const chartDataOutside = {
+		labels: [
+			"<%= entries[9].time.time %>",
+			"<%= entries[8].time.time %>",
+			"<%= entries[7].time.time %>",
+			"<%= entries[6].time.time %>",
+			"<%= entries[5].time.time %>",
+			"<%= entries[4].time.time %>",
+			"<%= entries[3].time.time %>",
+			"<%= entries[2].time.time %>",
+			"<%= entries[1].time.time %>",
+			"<%= entries[0].time.time %>",
+		],
+		datasets: [{
+			label: 'Outside Temperature',
+			data: [
+			<%= entries[9].temperatures.outside %>,
+			<%= entries[8].temperatures.outside %>,
+			<%= entries[7].temperatures.outside %>,
+			<%= entries[6].temperatures.outside %>,
+			<%= entries[5].temperatures.outside %>,
+			<%= entries[4].temperatures.outside %>,
+			<%= entries[3].temperatures.outside %>,
+			<%= entries[2].temperatures.outside %>,
+			<%= entries[1].temperatures.outside %>,
+			<%= entries[0].temperatures.outside %>,
+			],
+			fill: false,
+			borderColor: 'rgb(175, 122, 232)',
+			tension: 0.6
+		}]
+	};
+	var ctxOutside = document.getElementById('outside_chart');
+	var outside = new Chart(ctxOutside, {
+		type: 'line',
+		data: chartDataOutside,
+		options: {
+			scales: {
+				y: {
+					suggestedMin: -25,
+					suggestedMax: 35,
+					ticks: {
+						stepSize: 1
+					}
+				}
+			}
+		}
+	});
+</script>
